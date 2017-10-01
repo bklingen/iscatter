@@ -1,0 +1,26 @@
+Package: iscatter
+Version: 0.1.0
+Title: Interactive Plotly Scatterplots with RHandsontable
+Description: Interactive Plotly Scatterplots with RHandsontable.
+Author:
+    Bernhard Klingenberg [aut, cre],
+    Zafer Cesur [aut]
+Maintainer: Zafer Cesur <zafercesur@gmail.com>
+Depends:
+    R (>= 3.1)
+Imports:
+    shiny,
+    plotly,
+    rhandsontable,
+    tidyverse
+Suggests:
+    testthat (>= 0.11.0),
+    knitr
+License: file LICENSE
+URL: https://github.com/bklingen/iscatter
+BugReports: https://github.com/bklingen/iscatter/issues
+LazyData: true
+VignetteBuilder: knitr
+RoxygenNote: 6.0.1
+Roxygen: list(markdown = TRUE)
+Encoding: UTF-8
