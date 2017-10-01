@@ -5,14 +5,25 @@
 #' @import utils
 
 server <- function(input, output) {
-
-  x <- read.csv(system.file("extdata", "fl_crime.csv", package = "iscatter"))
+  
+  data <- reactiveValues(data = read.csv(system.file("extdata", "fl_crime.csv", package = "iscatter")))
   
   output$table <- renderRHandsontable({
-    x %>% head() %>% rhandsontable()
+    rhandsontable(data$data)
   })
-    
+  
   output$plot <- renderPlotly({
-    plot_ly(x, x = ~Education, y = ~Crime, type = "scatter")
+    plot_ly(data$data, x = ~Education, y = ~Crime, type = "scatter",
+            hoverinfo = "text",
+            text = ~paste0("County: ", County, "<br>",
+                           "Education: ", Education, "<br>",
+                           "Crime: ", Crime, "<br>",
+                           "Urbanization: ", Urbanization.Categorical, " (", Urbanization.Percent, "%)"))
+  })
+  
+  # Underlying data used both by the table and the plot. Note that the data are
+  # updated after new user entry into the table.
+  observeEvent(input$table, {
+    data$data <- hot_to_r(input$table)
   })
 }
