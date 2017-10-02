@@ -12,22 +12,24 @@ server <- function(input, output) {
   
   output$table <- renderRHandsontable({
     eventdata <- event_data("plotly_hover", source = "source")
-    validate(need(!is.null(eventdata), "Hover over a point in the plot."))
-    hovered <- as.numeric(eventdata$pointNumber)[1] + 1
     
-    rhandsontable(data$data, index = hovered) %>%
-      hot_cols(renderer = "function(instance, td, row, col, prop, value, cellProperties) {
-        Handsontable.TextCell.renderer.apply(this, arguments);
-        if (instance.params) {
-        mhrows = instance.params.index
-        mhrows = mhrows instanceof Array ? mhrows : [mhrows]
+    if(is.null(eventdata)) {
+      rhandsontable(data$data)
+      
+    } else {
+      hovered <- as.numeric(eventdata$pointNumber)[1] + 1
+      print(hovered)
+      rhandsontable(data$data, myindex = hovered) %>%
+        hot_cols(renderer = "function(instance, td, row, col, prop, value, cellProperties) {
+          Handsontable.TextCell.renderer.apply(this, arguments);
+          if (instance.params) {
+            hrows = instance.params.myindex
+            hrows = hrows instanceof Array ? hrows : [hrows] 
+          }
+          if (instance.params && hrows.includes(row)) td.style.background = 'lightblue';
         }
-        if (instance.params && mhrows.includes(row)) td.style.background = 'lightcoral';
-        if (value =='NA') {
-        value = '';
-        Handsontable.renderers.getRenderer('text')(instance, td, row, col, prop, value, cellProperties);
-        }
-      }")
+        ")
+    }
   })
   
   output$plot <- renderPlotly({
