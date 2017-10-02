@@ -1,6 +1,8 @@
 #' @import shiny
 #' @import plotly
 #' @import rhandsontable
+#' 
+#' @export
 
 ui <- fluidPage(
   
