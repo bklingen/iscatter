@@ -11,7 +11,7 @@ Depends:
 Imports:
     shiny,
     plotly,
-    rhandsontable,
+    rhandsontable (== 0.3.4.3),
     tidyverse
 Suggests:
     testthat (>= 0.11.0),

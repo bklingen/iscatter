@@ -17,8 +17,8 @@ server <- function(input, output) {
       rhandsontable(data$data)
       
     } else {
-      hovered <- as.numeric(eventdata$pointNumber)[1] + 1
-      print(hovered)
+      hovered <- as.numeric(eventdata$pointNumber)[1]
+      
       rhandsontable(data$data, myindex = hovered) %>%
         hot_cols(renderer = "function(instance, td, row, col, prop, value, cellProperties) {
           Handsontable.TextCell.renderer.apply(this, arguments);
