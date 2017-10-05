@@ -8,32 +8,23 @@
 
 server <- function(input, output) {
   
-  data <- reactiveValues(data = read.csv(system.file("extdata", "fl_crime.csv", package = "iscatter")))
+  df <- read.csv(system.file("extdata", "fl_crime.csv", package = "iscatter"))
+  reactives <- reactiveValues(data = df)
   
   output$table <- renderRHandsontable({
-    eventdata <- event_data("plotly_hover", source = "source")
-    
-    if(is.null(eventdata)) {
-      rhandsontable(data$data)
+    if(is.null(event_data("plotly_hover", source = "source"))) {
+      rhandsontable(df, width = 550, height = 550)
       
     } else {
-      hovered <- as.numeric(eventdata$pointNumber)[1]
-      
-      rhandsontable(data$data, myindex = hovered) %>%
-        hot_cols(renderer = "function(instance, td, row, col, prop, value, cellProperties) {
-          Handsontable.TextCell.renderer.apply(this, arguments);
-          if (instance.params) {
-            hrows = instance.params.myindex
-            hrows = hrows instanceof Array ? hrows : [hrows] 
-          }
-          if (instance.params && hrows.includes(row)) td.style.background = 'lightblue';
-        }
-        ")
+      reactives$data %>%
+        rhandsontable(width = 550, height = 550, hovered = 0) %>%
+        hot_rows(fixedRowsTop = 1) %>%
+        hot_cols(renderer = renderer(type = "highlight"))
     }
   })
   
   output$plot <- renderPlotly({
-    plot_ly(data$data, x = ~Education, y = ~Crime,
+    plot_ly(df, x = ~Education, y = ~Crime,
             type = "scatter", hoverinfo = "text", source = "source",
             text = ~paste0("County: ", County, "<br>",
                            "Education: ", Education, "<br>",
@@ -41,9 +32,12 @@ server <- function(input, output) {
                            "Urbanization: ", Urbanization.Categorical, " (", Urbanization.Percent, "%)"))
   })
   
-  # Underlying data used both by the table and the plot. Note that the data are
-  # updated after new user entry into the table.
-  observeEvent(input$table, {
-    data$data <- hot_to_r(input$table)
+  observeEvent(event_data("plotly_hover", source = "source"), {
+    eventdata <- event_data("plotly_hover", source = "source")
+    
+    if(!is.null(eventdata)) {
+      hovered <- as.numeric(eventdata$pointNumber)[1]+1
+      reactives$data <- moveToTop(df, hovered)
+    }
   })
 }
