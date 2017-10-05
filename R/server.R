@@ -9,10 +9,11 @@
 server <- function(input, output) {
   
   df <- read.csv(system.file("extdata", "fl_crime.csv", package = "iscatter"))
-  reactives <- reactiveValues(data = df)
+  reactives <- reactiveValues(data = df,
+                              hovered = FALSE)
   
   output$table <- renderRHandsontable({
-    if(is.null(event_data("plotly_hover", source = "source"))) {
+    if(is.null(event_data("plotly_hover", source = "source")) && reactives$hovered == FALSE) {
       rhandsontable(df, width = 550, height = 550)
       
     } else {
@@ -38,6 +39,7 @@ server <- function(input, output) {
     if(!is.null(eventdata)) {
       hovered <- as.numeric(eventdata$pointNumber)[1]+1
       reactives$data <- moveToTop(df, hovered)
+      reactives$hovered <- TRUE
     }
   })
 }
