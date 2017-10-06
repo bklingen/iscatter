@@ -9,7 +9,9 @@ ui <- fluidPage(
   sidebarLayout(
     
     sidebarPanel(
-      rHandsontableOutput(outputId = "table")
+      rHandsontableOutput(outputId = "table"),
+      includeScript("R/www/focus.js")
+      #tags$head(tags$script(type="text/javascript", src="focus.js"))
     ),
     
     mainPanel(
