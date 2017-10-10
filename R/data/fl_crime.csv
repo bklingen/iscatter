@@ -1,0 +1,68 @@
+County,Education,Crime,Urbanization.Categorical,Urbanization.Percent
+Alachua,82.7,104,mixed,73.2
+Baker,64.1,20,mixed,21.5
+Bay,74.7,64,urban,85
+Bradford,65,50,mixed,23.2
+Brevard,82.3,64,urban,91.9
+Broward,76.8,94,urban,98.9
+Calhoun,55.9,8,rural,0
+Charlotte,75.7,35,urban,80.2
+Citrus,68.6,27,mixed,31
+Clay,81.2,41,mixed,65.8
+Collier,79,55,urban,77.6
+Columbia,69,69,mixed,31.1
+De Soto,54.5,69,mixed,44.6
+Dixie,57.7,49,rural,0
+Duval,76.9,97,urban,98.8
+Escambia,76.2,70,urban,85.9
+Flagler,78.7,34,mixed,63.1
+Franklin,59.5,37,mixed,30.2
+Gadsden,59.9,52,mixed,28.8
+Gilchrist,63,15,rural,0
+Glades,57.4,62,rural,0
+Gulf,66.4,19,mixed,35.2
+Hamilton,58.4,6,rural,0
+Hardee,54.8,57,rural,16.7
+Hendry,56.6,47,mixed,44.7
+Hernando,70.5,44,mixed,61.3
+Highlands,68.2,56,mixed,24.8
+Hillsborough,75.6,110,urban,89.2
+Holmes,57.1,5,rural,16.8
+Indian River,76.5,58,urban,83
+Jackson,61.6,32,mixed,21.7
+Jefferson,64.1,36,mixed,22.3
+Lafayette,58.2,0,rural,0
+Lake,70.6,42,mixed,43.2
+Lee,76.9,59,urban,86.1
+Leon,84.9,107,urban,82.5
+Levy,62.8,45,rural,0
+Liberty,56.7,8,rural,0
+Madison,56.5,26,mixed,20.3
+Manatee,75.6,79,urban,88.7
+Marion,69.6,64,mixed,39.6
+Martin,79.7,53,urban,83.2
+Miami-Dade,65,128,urban,98.8
+Monroe,79.7,89,mixed,73.2
+Nassau,71.2,42,mixed,44.9
+Okaloosa,83.8,37,urban,84
+Okeechobee,59.1,51,mixed,30.1
+Orange,78.8,93,urban,93.1
+Osceola,73.7,78,mixed,66.4
+Palm Beach,78.8,90,urban,94.7
+Pasco,66.9,42,mixed,67.4
+Pinellas,78.1,70,urban,99.6
+Polk,68,84,mixed,70.3
+Putnam,64.3,83,rural,15.7
+St. Johns,81.3,54,urban,93.2
+St. Lucie,84.6,58,urban,92.8
+Santa Rosa,79.9,43,mixed,57.2
+Sarasota,71.7,58,urban,92.1
+Seminole,78.5,56,mixed,44.4
+Sumter,64.3,37,rural,19.3
+Suwannee,63.8,37,mixed,23.6
+Taylor,62.1,76,mixed,41.8
+Union,67.7,6,rural,0
+Volusia,75.4,62,urban,83.9
+Wakulla,71.6,29,rural,0
+Walton,66.5,18,mixed,20.9
+Washington,60.9,21,mixed,22.9

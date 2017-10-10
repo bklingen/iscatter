@@ -1,26 +1,20 @@
-#' @import shiny
-#' @importFrom shinyjs js
-#' @import plotly
-#' @import rhandsontable
-#' @import readr
-#' @import dplyr
-#' @import utils
-#' 
-#' @export
+library(shiny)
+library(shinyjs)
+library(plotly)
+library(rhandsontable)
+library(readr)
 
 server <- function(input, output) {
-  data <- read_csv(system.file("extdata", "fl_crime.csv", package = "iscatter"))
-  reactives <- reactiveValues(hovered = -1)
+  data <- read_csv(file='data/fl_crime.csv')
+  reactives <- reactiveValues(hovered = NA)
   
   output$table <- renderRHandsontable({
-    if(is.null(event_data("plotly_hover", source = "source"))) {
-      rhandsontable(data, width = 550, height = 550)
-      
-    } else {
-      data %>%
-        rhandsontable(width = 550, height = 550, hovered = reactives$hovered) %>%
-        hot_cols(renderer = read_file(system.file("js", "highlight.js", package = "iscatter")))
-    }
+    eventdata <- event_data("plotly_hover", source = "source")
+    hovered <- as.numeric(eventdata$pointNumber)[1]
+    reactives$hovered <- hovered
+    rhandsontable(data, height = 230, rowHeaders=TRUE, hovered = hovered) %>%
+      hot_table(stretchH="all") %>%
+      hot_cols(renderer = read_file(file='js/highlight.js'))
   })
   
   output$plot <- renderPlotly({
@@ -33,10 +27,8 @@ server <- function(input, output) {
   })
   
   observeEvent(event_data("plotly_hover", source = "source"), {
-    eventdata <- event_data("plotly_hover", source = "source")
-    validate(need(eventdata, "Event data not found"))
-    hovered <- as.numeric(eventdata$pointNumber)[1]
+    hovered <- reactives$hovered
+    if(is.na(hovered)) return(NULL)
     js$focus("table", hovered)
-    reactives$hovered <- hovered
   })
 }

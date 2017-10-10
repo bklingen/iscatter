@@ -1,10 +1,9 @@
-#' @import shiny
-#' @import plotly
-#' @import rhandsontable
-#' @importFrom shinyjs useShinyjs extendShinyjs
-#' @import V8
-#' 
-#' @export
+library(shiny)
+library(shinyjs)
+library(V8)
+library(plotly)
+library(rhandsontable)
+library(readr)
 
 ui <- fluidPage(
   useShinyjs(),
