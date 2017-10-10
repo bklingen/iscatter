@@ -17,7 +17,7 @@ Interactive plotly scatterplots with rhandsontable in the ui
 sudo apt-get install -y libv8-3.14-dev
 ```
 
-- Row highlighting works with v0.3.4.3 of `rhandsontable`, but not necessarily with newer ones. Here's how you get this specific version:
+Row highlighting works with v0.3.4.3 of `rhandsontable`, but not necessarily with newer ones. Here's how you get this specific version:
 ```r
 devtools::install_github("jrowen/rhandsontable", ref = "55f7a3c67d71a5c0697fc4be3639229d9a0891f7")
 ```
