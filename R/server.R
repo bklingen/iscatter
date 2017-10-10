@@ -1,31 +1,30 @@
 #' @import shiny
+#' @importFrom shinyjs js
 #' @import plotly
 #' @import rhandsontable
-#' @import tidyverse
+#' @import readr
+#' @import dplyr
 #' @import utils
 #' 
 #' @export
 
 server <- function(input, output) {
-  
-  df <- read.csv(system.file("extdata", "fl_crime.csv", package = "iscatter"))
-  reactives <- reactiveValues(data = df,
-                              hovered = FALSE)
+  data <- read_csv(system.file("extdata", "fl_crime.csv", package = "iscatter"))
+  reactives <- reactiveValues(hovered = -1)
   
   output$table <- renderRHandsontable({
-    if(is.null(event_data("plotly_hover", source = "source")) && reactives$hovered == FALSE) {
-      rhandsontable(df, width = 550, height = 550)
+    if(is.null(event_data("plotly_hover", source = "source"))) {
+      rhandsontable(data, width = 550, height = 550)
       
     } else {
-      reactives$data %>%
-        rhandsontable(width = 550, height = 550, hovered = 0) %>%
-        hot_rows(fixedRowsTop = 1) %>%
-        hot_cols(renderer = renderer(type = "highlight"))
+      data %>%
+        rhandsontable(width = 550, height = 550, hovered = reactives$hovered) %>%
+        hot_cols(renderer = read_file(system.file("js", "highlight.js", package = "iscatter")))
     }
   })
   
   output$plot <- renderPlotly({
-    plot_ly(df, x = ~Education, y = ~Crime,
+    plot_ly(data, x = ~Education, y = ~Crime,
             type = "scatter", hoverinfo = "text", source = "source",
             text = ~paste0("County: ", County, "<br>",
                            "Education: ", Education, "<br>",
@@ -35,11 +34,9 @@ server <- function(input, output) {
   
   observeEvent(event_data("plotly_hover", source = "source"), {
     eventdata <- event_data("plotly_hover", source = "source")
-    
-    if(!is.null(eventdata)) {
-      hovered <- as.numeric(eventdata$pointNumber)[1]+1
-      reactives$data <- moveToTop(df, hovered)
-      reactives$hovered <- TRUE
-    }
+    validate(need(eventdata, "Event data not found"))
+    hovered <- as.numeric(eventdata$pointNumber)[1]
+    js$focus("table", hovered)
+    reactives$hovered <- hovered
   })
 }
