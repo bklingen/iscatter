@@ -11,8 +11,8 @@ server <- function(input, output) {
   output$table <- renderRHandsontable({
     eventdata <- event_data("plotly_hover", source = "source")
     hovered <- as.numeric(eventdata$pointNumber)[1]
-    reactives$hovered <- hovered
-    rhandsontable(data, height = 230, rowHeaders=TRUE, hovered = hovered) %>%
+    if(!is.na(hovered)) reactives$hovered <- hovered
+    rhandsontable(data, height = 450, rowHeaders=TRUE, hovered = reactives$hovered) %>%
       hot_table(stretchH="all") %>%
       hot_cols(renderer = read_file(file='js/highlight.js'))
   })
