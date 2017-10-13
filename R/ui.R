@@ -7,7 +7,7 @@ library(readr)
 
 ui <- fluidPage(
   useShinyjs(),
-  extendShinyjs(script = system.file("js", "focus.js", package = "iscatter")),
+  extendShinyjs(script = 'js/focus.js'),
   
   sidebarLayout(
     sidebarPanel(
