@@ -40,6 +40,17 @@ server <- function(input, output, session) {
   
   observeEvent(input$clicked, {
     vals <- round(input$clicked, digits = 1)
-    reactives$data <- bind_rows(data_frame(Education = vals[1], Crime = vals[2]), reactives$data)
+
+    x <- reactives$data
+    nearest_neighbor <- x %>%
+      mutate(dist = sqrt((Education-vals[1])^2 + (Crime-vals[2])^2), row = row_number()) %>%
+      slice(which.min(dist)) %>%
+      select(dist, row)
+    
+    if (nearest_neighbor$dist < 10) {
+      reactives$data <- reactives$data[-nearest_neighbor$row, ]
+    } else {
+      reactives$data <- bind_rows(data_frame(Education = vals[1], Crime = vals[2]), reactives$data)
+    }
   })
 }
