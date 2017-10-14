@@ -7,9 +7,6 @@ library(tibble)
 library(dplyr)
 
 server <- function(input, output, session) {
-  x <- ~Education
-  y <- ~Crime
-  
   session$onSessionEnded(stopApp)
   
   session$onFlushed(function() {
@@ -26,7 +23,7 @@ server <- function(input, output, session) {
   })
   
   output$plot1 <- renderPlotly({
-    plot_ly(reactives$data, x = x, y = y,
+    plot_ly(reactives$data, x = ~Education, y = ~Crime,
             type = "scatter", hoverinfo = "text", source = "source",
             text = ~paste0("County: ", County, "<br>",
                            "Education: ", Education, "<br>",
@@ -43,7 +40,6 @@ server <- function(input, output, session) {
   
   observeEvent(input$clicked, {
     vals <- round(input$clicked, digits = 1)
-    new_row <- tribble(x, y, vals[1], vals[2])
-    reactives$data <- bind_rows(new_row, reactives$data)
+    reactives$data <- bind_rows(data_frame(Education = vals[1], Crime = vals[2]), reactives$data)
   })
 }
