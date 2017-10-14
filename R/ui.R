@@ -7,15 +7,16 @@ library(readr)
 
 ui <- fluidPage(
   useShinyjs(),
-  extendShinyjs(script = 'js/focus.js'),
+  extendShinyjs(script = "js/focus.js"),
+  extendShinyjs(script = "js/observe_clicks.js"),
   
   sidebarLayout(
     sidebarPanel(
-      rHandsontableOutput(outputId = "table")
+      rHandsontableOutput(outputId = "table1")
     ),
     
     mainPanel(
-      plotlyOutput(outputId = "plot")
+      plotlyOutput(outputId = "plot1")
     )
   )
 )

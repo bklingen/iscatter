@@ -3,22 +3,32 @@ library(shinyjs)
 library(plotly)
 library(rhandsontable)
 library(readr)
+library(tibble)
+library(dplyr)
 
-server <- function(input, output) {
-  data <- read_csv(file='data/fl_crime.csv')
-  reactives <- reactiveValues(hovered = NA)
+server <- function(input, output, session) {
+  session$onSessionEnded(stopApp)
   
-  output$table <- renderRHandsontable({
-    eventdata <- event_data("plotly_hover", source = "source")
-    hovered <- as.numeric(eventdata$pointNumber)[1]
-    if(!is.na(hovered)) reactives$hovered <- hovered
-    rhandsontable(data, height = 450, rowHeaders=TRUE, hovered = reactives$hovered) %>%
-      hot_table(stretchH="all") %>%
-      hot_cols(renderer = read_file(file='js/highlight.js'))
+  session$onFlushed(function() {
+    js$observe_clicks("plot1")
   })
   
-  output$plot <- renderPlotly({
-    plot_ly(data, x = ~Education, y = ~Crime,
+  df <- read_csv(file='data/fl_crime.csv')
+  x <- ~Education
+  y <- ~Crime
+  
+  reactives <- reactiveValues(data = df,
+                              hovered = NA,
+                              clicked = NA)
+  
+  output$table1 <- renderRHandsontable({
+    rhandsontable(reactives$data, height = 450, rowHeaders = TRUE, hovered = reactives$hovered) %>%
+      hot_table(stretchH = "all") %>%
+      hot_cols(renderer = read_file(file = 'js/highlight.js'))
+  })
+  
+  output$plot1 <- renderPlotly({
+    plot_ly(reactives$data, x = x, y = y,
             type = "scatter", hoverinfo = "text", source = "source",
             text = ~paste0("County: ", County, "<br>",
                            "Education: ", Education, "<br>",
@@ -27,8 +37,15 @@ server <- function(input, output) {
   })
   
   observeEvent(event_data("plotly_hover", source = "source"), {
-    hovered <- reactives$hovered
-    if(is.na(hovered)) return(NULL)
-    js$focus("table", hovered)
+    eventdata <- event_data("plotly_hover", source = "source")
+    hovered <- as.numeric(eventdata$pointNumber)[1]
+    if(!is.na(hovered)) reactives$hovered <- hovered
+    js$focus("table1", hovered)
+  })
+  
+  observeEvent(input$clicked, {
+    vals <- round(input$clicked, digits = 1)
+    new_row <- tribble(x, y, vals[1], vals[2])
+    reactives$data <- bind_rows(new_row, reactives$data)
   })
 }
