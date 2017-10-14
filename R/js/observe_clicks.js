@@ -11,9 +11,6 @@ shinyjs.observe_clicks = function(params) {
   gd.addEventListener('click', function(evt) {
     var xInDataCoord = xaxis.p2c(evt.x - l);
     var yInDataCoord = yaxis.p2c(evt.y - t);
-    
-    console.log([xInDataCoord, yInDataCoord]);
-    
     Shiny.onInputChange("clicked", [xInDataCoord, yInDataCoord]);
   });
 };

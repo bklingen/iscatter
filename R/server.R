@@ -7,19 +7,17 @@ library(tibble)
 library(dplyr)
 
 server <- function(input, output, session) {
+  x <- ~Education
+  y <- ~Crime
+  
   session$onSessionEnded(stopApp)
   
   session$onFlushed(function() {
     js$observe_clicks("plot1")
   })
   
-  df <- read_csv(file='data/fl_crime.csv')
-  x <- ~Education
-  y <- ~Crime
-  
-  reactives <- reactiveValues(data = df,
-                              hovered = NA,
-                              clicked = NA)
+  reactives <- reactiveValues(data = read_csv(file='data/fl_crime.csv'),
+                              hovered = NA)
   
   output$table1 <- renderRHandsontable({
     rhandsontable(reactives$data, height = 450, rowHeaders = TRUE, hovered = reactives$hovered) %>%
