@@ -1,14 +1,12 @@
 library(shiny)
 library(shinyjs)
 library(V8)
-library(plotly)
 library(rhandsontable)
 library(readr)
 
 ui <- fluidPage(
   useShinyjs(),
   extendShinyjs(script = "js/focus.js"),
-  extendShinyjs(script = "js/observe_clicks.js"),
   
   sidebarLayout(
     sidebarPanel(
@@ -16,7 +14,11 @@ ui <- fluidPage(
     ),
     
     mainPanel(
-      plotlyOutput(outputId = "plot1")
+      div(
+        style = "position:relative",
+        plotOutput(outputId = "plot1", hover = hoverOpts("plot1_hover", delay = 100, delayType = "debounce")),
+        uiOutput("plot1_tooltip")
+      )
     )
   )
 )

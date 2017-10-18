@@ -1,5 +1,5 @@
 Package: iscatter
-Version: 0.2.0
+Version: 0.2.1
 Title: Interactive Plotly Scatterplots with RHandsontable
 Description: Interactive Plotly Scatterplots with RHandsontable.
 Author:
@@ -11,11 +11,12 @@ Depends:
 Imports:
     shiny,
     shinyjs,
-    plotly,
-    rhandsontable (== 0.3.4.3),
+    rhandsontable,
     dplyr,
     readr,
-    V8
+    V8,
+    tibble
+    ggplot2
 Suggests:
     testthat (>= 0.11.0),
     knitr
