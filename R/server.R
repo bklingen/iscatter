@@ -43,9 +43,9 @@ server <- function(input, output, session) {
     wellPanel(
       style = paste0("position:absolute; z-index:100; background-color: rgba(245, 245, 245, 0.85); ",
                      "left:", left_px + 2, "px; top:", top_px + 2, "px;"),
-      p(HTML(with(point, paste0("County: ", County, "<br>",
-                                "Education: ", Education, "<br>",
-                                "Crime: ", Crime, "<br>",
-                                "Urbanization: ", Urbanization.Categorical, " (", Urbanization.Percent, "%)")))))
+      p(HTML(with(point, paste0("<b>County:</b> ", County, "<br>",
+                                "<b>Education:</b> ", Education, "<br>",
+                                "<b>Crime:</b> ", Crime, "<br>",
+                                "<b>Urbanization:</b> ", Urbanization.Categorical, " (", Urbanization.Percent, "%)")))))
   })
 }
