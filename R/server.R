@@ -27,8 +27,7 @@ server <- function(input, output, session) {
   output$plot1_tooltip <- renderUI({
     hover <- input$plot1_hover
     point <- reactives$data %>%
-      rownames_to_column("idx") %>%
-      mutate(idx = as.numeric(idx)) %>%
+      mutate(idx = as.numeric(rownames(.))) %>%
       nearPoints(coordinfo = hover, threshold = 5, maxpoints = 1)
     req(nrow(point) != 0)
 

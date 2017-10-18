@@ -14,7 +14,7 @@ Interactive plotly scatterplots with rhandsontable in the ui
 
 [`libv8`](https://developers.google.com/v8/intro) is a Javascript engine that is needed to install the R package `V8`. You will need 3.14 or 3.15 (no newer!). On __Debian__ or __Ubuntu__ use [libv8-3.14-dev](https://packages.debian.org/testing/libv8-3.14-dev):
 
-```
+```bash
 sudo apt-get install -y libv8-3.14-dev
 ```
 
@@ -27,6 +27,6 @@ devtools::install_github("jrowen/rhandsontable")
 
 ### The package
 
-```
+```r
 devtools::install_github("bklingen/iscatter")
 ```
