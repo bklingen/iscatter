@@ -1,5 +1,5 @@
 function highlight(instance, td, row, col, prop, value, cellProperties) {
-  Handsontable.TextCell.renderer.apply(this, arguments);
+  Handsontable.renderers.TextRenderer.apply(this, arguments);
     td.style.color = 'black'; 
     if (instance.params) {
       hrows = instance.params.hovered;
