@@ -3,10 +3,10 @@ Interactive plotly scatterplots with rhandsontable in the ui
 
 ## Goals: 
 
-- [ ] Hover and click events in scatterplot (such as adding or deleting points)
 - [ ] Adding/removing multiple traces corresponding to subgroups.
 - [x] Build in latency/delay when the hover event is triggered.
 - [x] Row highlighting and focusing in rhandsontable
+- [x] Hover and click events in scatterplot (such as adding or deleting points)
 
 ## Installation on Linux:
 

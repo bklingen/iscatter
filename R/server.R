@@ -6,6 +6,8 @@ library(readr)
 library(tibble)
 library(dplyr)
 
+proxThreshold <- 5
+
 server <- function(input, output, session) {
   session$onSessionEnded(stopApp)
   
@@ -26,13 +28,13 @@ server <- function(input, output, session) {
   
   output$plot1_tooltip <- renderUI({
     hover <- input$plot1_hover
-    point <- reactives$data %>%
+    pt <- reactives$data %>%
       mutate(idx = as.numeric(rownames(.))) %>%
-      nearPoints(coordinfo = hover, threshold = 5, maxpoints = 1)
-    req(nrow(point) != 0)
-
-    reactives$hovered <- point$idx
-    js$focus("table1", point$idx)
+      nearPoints(coordinfo = hover, threshold = proxThreshold, maxpoints = 1)
+    req(nrow(pt) != 0)
+    
+    reactives$hovered <- pt$idx
+    js$focus("table1", pt$idx)
     
     left_pct <- (hover$x - hover$domain$left) / (hover$domain$right - hover$domain$left)
     top_pct <- (hover$domain$top - hover$y) / (hover$domain$top - hover$domain$bottom)
@@ -43,9 +45,21 @@ server <- function(input, output, session) {
     wellPanel(
       style = paste0("position:absolute; z-index:100; background-color: rgba(245, 245, 245, 0.85); ",
                      "left:", left_px + 2, "px; top:", top_px + 2, "px;"),
-      p(HTML(with(point, paste0("<b>County:</b> ", County, "<br>",
-                                "<b>Education:</b> ", Education, "<br>",
-                                "<b>Crime:</b> ", Crime, "<br>",
-                                "<b>Urbanization:</b> ", Urbanization.Categorical, " (", Urbanization.Percent, "%)")))))
+      p(HTML(with(pt, paste0("<b>County:</b> ", County, "<br>",
+                             "<b>Education:</b> ", Education, "<br>",
+                             "<b>Crime:</b> ", Crime, "<br>",
+                             "<b>Urbanization:</b> ", Urbanization.Categorical, " (", Urbanization.Percent, "%)")))))
+  })
+  
+  observeEvent(input$plot1_click, {
+    click <- input$plot1_click
+    
+    ptNearby <- reactives$data %>%
+      mutate(idx = as.numeric(rownames(.))) %>%
+      nearPoints(coordinfo = click, threshold = proxThreshold, maxpoints = 1)
+    
+    reactives$data <-
+      if (nrow(ptNearby) == 0) add_row(reactives$data, Education = click$x, Crime = click$y, .before = 1)
+    else reactives$data[-ptNearby$idx, ]
   })
 }

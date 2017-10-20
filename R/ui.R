@@ -16,7 +16,9 @@ ui <- fluidPage(
     mainPanel(
       div(
         style = "position:relative",
-        plotOutput(outputId = "plot1", hover = hoverOpts("plot1_hover", delay = 100, delayType = "debounce")),
+        plotOutput(outputId = "plot1",
+                   hover = hoverOpts("plot1_hover", delay = 100, delayType = "debounce"),
+                   click = clickOpts("plot1_click")),
         uiOutput("plot1_tooltip")
       )
     )
