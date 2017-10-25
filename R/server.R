@@ -58,8 +58,11 @@ server <- function(input, output, session) {
       mutate(idx = as.numeric(rownames(.))) %>%
       nearPoints(coordinfo = click, threshold = proxThreshold, maxpoints = 1)
     
-    reactives$data <-
-      if (nrow(ptNearby) == 0) add_row(reactives$data, Education = click$x, Crime = click$y, .before = 1)
-    else reactives$data[-ptNearby$idx, ]
+    if (nrow(ptNearby) == 0)
+      reactives$data <- add_row(reactives$data, Education = click$x, Crime = click$y, .before = 1)
+    else {
+      reactives$data <- reactives$data[-ptNearby$idx, ]
+      reactives$hovered <- NA
+    }
   })
 }
