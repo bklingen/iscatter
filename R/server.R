@@ -33,10 +33,9 @@ server <- function(input, output, session) {
       nearPoints(coordinfo = hover, threshold = proxThreshold, maxpoints = 1)
     req(nrow(pt) != 0)
     
-    max <- nrow(hot_to_r(input$table1)) - 1
+    last <- nrow(hot_to_r(input$table1)) - 1
     reactives$hovered <- pt$idx - 1
-    if(reactives$hovered < 2) reactives$hovered <- 2
-    js$focus("table1", reactives$hovered, max)
+    js$focus(id = "table1", hovered = reactives$hovered, last = last)
     
     left_pct <- (hover$x - hover$domain$left) / (hover$domain$right - hover$domain$left)
     top_pct <- (hover$domain$top - hover$y) / (hover$domain$top - hover$domain$bottom)

@@ -1,3 +1,25 @@
+## Calling JavaScript functions from the server
+
+We can call JavaScript functions by importing `shinyjs` and injecting our scripts into somewhere in the page, say `mainPanel`, as follows:
+
+```r
+library(shinyjs)
+
+mainPanel(useShinyjs(),
+          extendShinyjs(script = "js/focus.js"),
+          ...
+          )
+```
+
+JS functions in `shinyjs` are implementated in a way that, when a JS function is called from the server with named arguments, say `js$focus(id = "hot", hovered = 5, last = 42)`, it will call `shinyjs.focus({id : "hot", hovered : 5, last : 42})`. As a result, the JavaScript function that we write must have `shinyjs` prefix in its name, e.g.,
+
+```js
+shinyjs.focus = function(params) {...};
+```
+
+And similarly, because `shinyjs` converts R arguments into an `Object` with key-value pairs, the function that we write must have a single argument, say `params`, that contain all arguments within as fields. For instance, to get the index of the hovered row, we would have to evaluate `params.hovered` in the JavaScript function. A full example is given below.
+
+```js
 /**
  * Focus on a given row of an RHandsontable.
  * 
@@ -34,3 +56,4 @@ shinyjs.focus = function(params) {
   table.selectCell(params.hovered-2, 1);
   table.deselectCell();
 };
+```
