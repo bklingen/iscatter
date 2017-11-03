@@ -12,8 +12,8 @@
  */
  
 shinyjs.focus = function(params) {
-  // Select the first "div" element with the class "rhandsontable" and the id
-  // <name> on the page. 
+  // Select the first "div" element with "rhandsontable" class and the given id
+  // on the page.
   var selector = "div.rhandsontable" + "#" + params.id;
   var td = document.querySelector(selector);
   
