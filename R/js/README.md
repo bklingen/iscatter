@@ -11,7 +11,7 @@ mainPanel(useShinyjs(),
           )
 ```
 
-JS functions in `shinyjs` are implementated in a way that, when a JS function is called from the server with named arguments, say `js$focus(id = "hot", hovered = 5, last = 42)`, it will call `shinyjs.focus({id : "hot", hovered : 5, last : 42})`. As a result, the JavaScript function that we write must have `shinyjs` prefix in its name, e.g.,
+JS functions in `shinyjs` are implemented in a way that, when a JS function is called from the server with named arguments, say `js$focus(id = "hot", hovered = 5, last = 42)`, it will call `shinyjs.focus({id : "hot", hovered : 5, last : 42})`. As a result, the JavaScript function that we write must have `shinyjs` prefix in its name, e.g.,
 
 ```js
 shinyjs.focus = function(params) {...};
